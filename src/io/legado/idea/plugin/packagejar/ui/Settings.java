@@ -36,6 +36,8 @@ public class Settings extends JDialog {
     private static File tempFile = null;
     private Properties properties = null;
     private final DataContext dataContext;
+    private final Project project;
+    private final Module module;
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
@@ -48,12 +50,13 @@ public class Settings extends JDialog {
 
     public Settings(DataContext dataContext) {
         this.dataContext = dataContext;
+        project = CommonDataKeys.PROJECT.getData(dataContext);
+        module = LangDataKeys.MODULE.getData(this.dataContext);
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
         this.buttonOK.addActionListener(e -> onOK());
         this.buttonCancel.addActionListener(e -> onCancel());
-
 
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
@@ -66,11 +69,6 @@ public class Settings extends JDialog {
         this.exportEachChildrenCheckBox.addActionListener(e -> onExportEachChildrenCheckBoxChange());
         this.selectPathButton.addActionListener(e -> onSelectPathButtonAction());
 
-
-        Project project = CommonDataKeys.PROJECT.getData(this.dataContext);
-
-
-        Module module = LangDataKeys.MODULE.getData(this.dataContext);
         VirtualFile[] virtualFiles = CommonDataKeys.VIRTUAL_FILE_ARRAY.getData(this.dataContext);
         List<String> names = new ArrayList<>();
 
@@ -90,6 +88,7 @@ public class Settings extends JDialog {
 
 
             if (!tempFile.exists()) {
+                //noinspection ResultOfMethodCallIgnored
                 tempFile.createNewFile();
             }
 
@@ -145,8 +144,6 @@ public class Settings extends JDialog {
 
 
     private void onOK() {
-        Project project = CommonDataKeys.PROJECT.getData(this.dataContext);
-        Module module = LangDataKeys.MODULE.getData(this.dataContext);
         String exportJarName = this.exportJarNameField.getText();
 
         exportJarName = exportJarName.trim() + ".jar";
@@ -178,8 +175,6 @@ public class Settings extends JDialog {
     }
 
     private String getPropertyKey() {
-        Project project = CommonDataKeys.PROJECT.getData(dataContext);
-        Module module = LangDataKeys.MODULE.getData(dataContext);
         VirtualFile[] virtualFiles = CommonDataKeys.VIRTUAL_FILE_ARRAY.getData(this.dataContext);
         StringBuilder pkey = new StringBuilder("MDL_" + module.getName());
 
