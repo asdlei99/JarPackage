@@ -1,6 +1,5 @@
 package io.legado.idea.plugin.packagejar.util;
 
-import com.google.gson.Gson;
 import com.intellij.compiler.CompilerConfiguration;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.DataContext;
@@ -46,14 +45,6 @@ public class CommonUtils {
         } catch (Exception e) {
             versionOpcodes = Opcodes.API_VERSION;
         }
-    }
-
-    public static String toJson(Object obj) {
-        return new Gson().toJson(obj);
-    }
-
-    public static <T> T fromJson(String json, Class<T> cls) {
-        return new Gson().fromJson(json, cls);
     }
 
 
