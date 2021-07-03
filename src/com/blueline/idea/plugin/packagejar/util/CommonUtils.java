@@ -58,15 +58,14 @@ public class CommonUtils {
 
 
     public static void collectExportFilesNest(Project project, Set<VirtualFile> collected, VirtualFile parentVf) {
-        if (!parentVf.isDirectory() && isValidExport(project, parentVf)) {
+        if (!parentVf.isDirectory()) {
             collected.add(parentVf);
         }
         //try to use com.intellij.openapi.vfs.VfsUtilCore.visitChildrenRecursively
-        final VirtualFile[] children = parentVf.getChildren();
-        for (VirtualFile child : children) {
+        for (VirtualFile child : parentVf.getChildren()) {
             if (child.isDirectory()) {
                 collectExportFilesNest(project, collected, child);
-            } else if (isValidExport(project, child)) {
+            } else {
                 collected.add(child);
             }
         }
@@ -94,7 +93,9 @@ public class CommonUtils {
                 jos.closeEntry();
                 Messages.info(project, "packed " + filePath + " to jar");
             }
+            Messages.generic(project, "success");
         } catch (Exception e) {
+            Messages.error(project, e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }

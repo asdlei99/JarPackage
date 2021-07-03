@@ -6,9 +6,8 @@
 package com.blueline.idea.plugin.packagejar.pack.impl;
 
 import com.blueline.idea.plugin.packagejar.pack.Packager;
-import com.blueline.idea.plugin.packagejar.util.ActionShowExplorer;
+import com.blueline.idea.plugin.packagejar.util.CommonUtils;
 import com.blueline.idea.plugin.packagejar.util.Messages;
-import com.blueline.idea.plugin.packagejar.util.Util;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.actionSystem.LangDataKeys;
@@ -22,11 +21,11 @@ import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.PsiPackage;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class AllPacker extends Packager {
     private final DataContext dataContext;
@@ -45,49 +44,28 @@ public class AllPacker extends Packager {
         Module module = LangDataKeys.MODULE.getData(this.dataContext);
         Messages.clear(project);
         VirtualFile[] virtualFiles = CommonDataKeys.VIRTUAL_FILE_ARRAY.getData(this.dataContext);
-        String outPutPath = CompilerPaths.getModuleOutputPath(module, false);
-        String jdkPath = Util.getJDKPath(project);
-        StringBuilder command = new StringBuilder(jdkPath);
-        command.append("jar");
-        command.append(" cvf ");
-        command.append(this.exportPath);
-        command.append("/");
-        command.append(this.exportJarName);
+        VirtualFile outPutDir = CompilerPaths.getModuleOutputDirectory(module, false);
 
+        Set<VirtualFile> allVfs = new HashSet<>();
         for (VirtualFile virtualFile : virtualFiles) {
             PsiDirectory psiDirectory = PsiManager.getInstance(project).findDirectory(virtualFile);
             if (psiDirectory != null) {
-                command.append(" -C ");
-                command.append(outPutPath);
-                command.append(" ");
                 PsiPackage psiPackage = JavaDirectoryService.getInstance().getPackage(psiDirectory);
-                command.append(psiPackage.getQualifiedName().replaceAll("\\.", "/"));
-                command.append("/");
+                VirtualFile pvf = outPutDir;
+                for (String n : psiPackage.getQualifiedName().split("\\.")) {
+                    pvf = pvf.findChild(n);
+                }
+                CommonUtils.collectExportFilesNest(project, allVfs, pvf);
             }
         }
-
-        Messages.info(project, command.toString());
-
-        try {
-            Process process = Runtime.getRuntime().exec(command.toString());
-            BufferedReader stream = new BufferedReader(
-                    new InputStreamReader(
-                            process.getInputStream(),
-                            System.getProperty("sun.jnu.encoding", Charset.defaultCharset().name())
-                    )
-            );
-
-            String str;
-            while ((str = stream.readLine()) != null) {
-                Messages.info(project, str);
-            }
-            Messages.infoNotify(
-                    "packageJar success",
-                    this.exportPath + "/" + this.exportJarName,
-                    List.of(new ActionShowExplorer(Path.of(this.exportPath))));
-        } catch (Exception e) {
-            e.printStackTrace();
+        List<Path> filePaths = new ArrayList<>();
+        List<String> jarEntryNames = new ArrayList<>();
+        int outIndex = outPutDir.getPath().length();
+        for (VirtualFile vf : allVfs) {
+            filePaths.add(vf.toNioPath());
+            jarEntryNames.add(vf.getPath().substring(outIndex));
         }
+        CommonUtils.createNewJar(project, Path.of(exportPath, exportJarName), filePaths, jarEntryNames);
 
     }
 

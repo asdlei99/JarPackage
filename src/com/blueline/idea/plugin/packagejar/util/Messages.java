@@ -46,6 +46,10 @@ public class Messages implements Constants {
         });
     }
 
+    public static void generic(Project project, String text) {
+        message(project, text, 1);
+    }
+
     public static void info(Project project, String text) {
         message(project, text, 3);
     }
