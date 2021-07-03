@@ -3,7 +3,7 @@
 // (powered by Fernflower decompiler)
 //
 
-package com.blueline.idea.plugin.packagejar.util;
+package io.legado.idea.plugin.packagejar.util;
 
 import com.intellij.compiler.impl.ProblemsViewPanel;
 import com.intellij.notification.Notification;
@@ -104,7 +104,7 @@ public class Messages implements Constants {
      * @param actions actions show in popup and event log window
      */
     public static void notify(String title, String message, List<AnAction> actions) {
-        final Notification notification = new Notification(Constants.actionName, title, message, NotificationType.INFORMATION);
+        final Notification notification = new Notification(actionName, title, message, NotificationType.INFORMATION);
         ContainerUtil.notNullize(actions).forEach(notification::addAction);
         Notifications.Bus.notify(notification);
     }

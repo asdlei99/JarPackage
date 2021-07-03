@@ -3,7 +3,7 @@
 // (powered by Fernflower decompiler)
 //
 
-package com.blueline.idea.plugin.packagejar.util;
+package io.legado.idea.plugin.packagejar.util;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;

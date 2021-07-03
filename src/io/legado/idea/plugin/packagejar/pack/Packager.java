@@ -3,7 +3,7 @@
 // (powered by Fernflower decompiler)
 //
 
-package com.blueline.idea.plugin.packagejar.pack;
+package io.legado.idea.plugin.packagejar.pack;
 
 import com.intellij.openapi.compiler.CompileStatusNotification;
 

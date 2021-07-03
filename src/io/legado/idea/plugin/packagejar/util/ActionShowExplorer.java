@@ -1,4 +1,4 @@
-package com.blueline.idea.plugin.packagejar.util;
+package io.legado.idea.plugin.packagejar.util;
 
 import com.intellij.ide.actions.RevealFileAction;
 import com.intellij.openapi.actionSystem.AnAction;

@@ -1,9 +1,5 @@
-package com.blueline.idea.plugin.packagejar.ui;
+package io.legado.idea.plugin.packagejar.ui;
 
-import com.blueline.idea.plugin.packagejar.pack.Packager;
-import com.blueline.idea.plugin.packagejar.pack.impl.AllPacker;
-import com.blueline.idea.plugin.packagejar.pack.impl.EachPacker;
-import com.blueline.idea.plugin.packagejar.util.Util;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.actionSystem.LangDataKeys;
@@ -20,6 +16,11 @@ import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.PsiPackage;
 import com.intellij.util.Consumer;
+import io.legado.idea.plugin.packagejar.pack.Packager;
+import io.legado.idea.plugin.packagejar.pack.impl.AllPacker;
+import io.legado.idea.plugin.packagejar.pack.impl.EachPacker;
+import io.legado.idea.plugin.packagejar.util.Messages;
+import io.legado.idea.plugin.packagejar.util.Util;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
@@ -29,7 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import static com.blueline.idea.plugin.packagejar.util.Messages.info;
 import static com.intellij.openapi.ui.Messages.showErrorDialog;
 
 public class Settings extends JDialog {
@@ -204,7 +204,7 @@ public class Settings extends JDialog {
             properties.store(out, "The New properties file");
 
         } catch (IOException e) {
-            info(project, e.toString());
+            Messages.info(project, e.toString());
         } finally {
 
 
@@ -212,7 +212,7 @@ public class Settings extends JDialog {
                 try {
                     out.close();
                 } catch (IOException e) {
-                    info(project, e.toString());
+                    Messages.info(project, e.toString());
                 }
             }
         }
@@ -229,14 +229,14 @@ public class Settings extends JDialog {
             properties.store(out, "The New properties file");
 
         } catch (IOException e) {
-            info(project, e.toString());
+            Messages.info(project, e.toString());
         } finally {
 
             if (null != out) {
                 try {
                     out.close();
                 } catch (IOException e) {
-                    info(project, e.toString());
+                    Messages.info(project, e.toString());
                 }
             }
         }

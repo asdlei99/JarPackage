@@ -1,4 +1,4 @@
-package com.blueline.idea.plugin.packagejar.util;
+package io.legado.idea.plugin.packagejar.util;
 
 import com.google.gson.Gson;
 import com.intellij.compiler.CompilerConfiguration;

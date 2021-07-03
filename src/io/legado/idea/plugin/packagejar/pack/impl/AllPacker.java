@@ -3,11 +3,8 @@
 // (powered by Fernflower decompiler)
 //
 
-package com.blueline.idea.plugin.packagejar.pack.impl;
+package io.legado.idea.plugin.packagejar.pack.impl;
 
-import com.blueline.idea.plugin.packagejar.pack.Packager;
-import com.blueline.idea.plugin.packagejar.util.CommonUtils;
-import com.blueline.idea.plugin.packagejar.util.Messages;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.actionSystem.LangDataKeys;
@@ -20,6 +17,9 @@ import com.intellij.psi.JavaDirectoryService;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.PsiPackage;
+import io.legado.idea.plugin.packagejar.pack.Packager;
+import io.legado.idea.plugin.packagejar.util.CommonUtils;
+import io.legado.idea.plugin.packagejar.util.Messages;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
