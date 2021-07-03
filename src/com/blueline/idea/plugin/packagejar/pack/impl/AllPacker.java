@@ -53,11 +53,8 @@ public class AllPacker extends Packager {
         command.append(this.exportPath);
         command.append("/");
         command.append(this.exportJarName);
-        VirtualFile[] files = virtualFiles;
-        int length = virtualFiles.length;
 
-        for (int i = 0; i < length; ++i) {
-            VirtualFile virtualFile = files[i];
+        for (VirtualFile virtualFile : virtualFiles) {
             PsiDirectory psiDirectory = PsiManager.getInstance(project).findDirectory(virtualFile);
             if (psiDirectory != null) {
                 command.append(" -C ");
