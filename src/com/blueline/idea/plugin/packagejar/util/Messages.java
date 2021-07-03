@@ -20,7 +20,6 @@ import com.intellij.ui.content.MessageView;
 import com.intellij.ui.content.MessageView.SERVICE;
 import com.intellij.util.containers.ContainerUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Messages implements Constants {
@@ -86,7 +85,7 @@ public class Messages implements Constants {
      * @param message message showing in popup, can be html snippet
      */
     public static void infoNotify(String title, String message) {
-        infoNotify(title, message, new ArrayList<>());
+        infoNotify(title, message, List.of());
     }
 
     /**
