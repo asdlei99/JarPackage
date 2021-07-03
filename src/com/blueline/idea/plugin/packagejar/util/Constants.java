@@ -9,6 +9,6 @@ public interface Constants {
     String titteFileList = "Select files";
     String actionNameExplorer = "Explorer";
     String actionNameCopy = "Copy";
-    String creator = "yanhuang.org";
+    String creator = "kun fei";
 
 }
