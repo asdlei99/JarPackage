@@ -70,7 +70,12 @@ public class AllPacker extends Packager {
 
         try {
             Process process = Runtime.getRuntime().exec(command.toString());
-            BufferedReader stream = new BufferedReader(new InputStreamReader(process.getInputStream(), System.getProperty("sun.jnu.encoding", Charset.defaultCharset().name())));
+            BufferedReader stream = new BufferedReader(
+                    new InputStreamReader(
+                            process.getInputStream(),
+                            System.getProperty("sun.jnu.encoding", Charset.defaultCharset().name())
+                    )
+            );
 
             String str;
             while ((str = stream.readLine()) != null) {

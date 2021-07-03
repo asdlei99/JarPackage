@@ -94,7 +94,12 @@ public class EachPacker extends Packager {
 
             try {
                 Process process = Runtime.getRuntime().exec(command.toString());
-                BufferedReader stream = new BufferedReader(new InputStreamReader(process.getInputStream(), System.getProperty("sun.jnu.encoding", Charset.defaultCharset().name())));
+                BufferedReader stream = new BufferedReader(
+                        new InputStreamReader(
+                                process.getInputStream(),
+                                System.getProperty("sun.jnu.encoding", Charset.defaultCharset().name())
+                        )
+                );
                 Messages.info(project, Charset.defaultCharset().name());
                 String str;
                 while ((str = stream.readLine()) != null) {
