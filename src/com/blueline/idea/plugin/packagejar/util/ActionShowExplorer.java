@@ -14,9 +14,13 @@ import java.nio.file.Path;
 public class ActionShowExplorer extends AnAction {
     private final Path filePath;
 
-    public ActionShowExplorer(Path filePath) {
+    private ActionShowExplorer(Path filePath) {
         super(Constants.actionNameExplorer);
         this.filePath = filePath;
+    }
+
+    static ActionShowExplorer of(Path filePath) {
+        return new ActionShowExplorer(filePath);
     }
 
     @Override

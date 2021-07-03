@@ -80,6 +80,7 @@ public class CommonUtils {
         try (OutputStream os = Files.newOutputStream(jarFileFullPath);
              BufferedOutputStream bos = new BufferedOutputStream(os);
              JarOutputStream jos = new JarOutputStream(bos, manifest)) {
+            Messages.info(project, "start package " + jarFileFullPath);
             for (int i = 0; i < entryNames.size(); i++) {
                 String entryName = entryNames.get(i);
                 JarEntry je = new JarEntry(entryName);
@@ -93,7 +94,8 @@ public class CommonUtils {
                 jos.closeEntry();
                 Messages.info(project, "packed " + filePath + " to jar");
             }
-            Messages.generic(project, "success");
+            Messages.info(project, "success");
+            Messages.notify("packageJar Success", jarFileFullPath.toString(), List.of(ActionShowExplorer.of(jarFileFullPath)));
         } catch (Exception e) {
             Messages.error(project, e.getLocalizedMessage());
             throw new RuntimeException(e);

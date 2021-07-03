@@ -46,10 +46,6 @@ public class Messages implements Constants {
         });
     }
 
-    public static void generic(Project project, String text) {
-        message(project, text, 1);
-    }
-
     public static void info(Project project, String text) {
         message(project, text, 3);
     }
@@ -96,8 +92,8 @@ public class Messages implements Constants {
      * @param title   title
      * @param message message showing in popup, can be html snippet
      */
-    public static void infoNotify(String title, String message) {
-        infoNotify(title, message, List.of());
+    public static void notify(String title, String message) {
+        notify(title, message, List.of());
     }
 
     /**
@@ -107,7 +103,7 @@ public class Messages implements Constants {
      * @param message content
      * @param actions actions show in popup and event log window
      */
-    public static void infoNotify(String title, String message, List<AnAction> actions) {
+    public static void notify(String title, String message, List<AnAction> actions) {
         final Notification notification = new Notification(Constants.actionName, title, message, NotificationType.INFORMATION);
         ContainerUtil.notNullize(actions).forEach(notification::addAction);
         Notifications.Bus.notify(notification);
