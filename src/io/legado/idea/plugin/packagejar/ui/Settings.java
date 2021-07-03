@@ -158,7 +158,9 @@ public class Settings extends JDialog {
                 showErrorDialog(project, "the selected output path is not exists", "");
             } else {
 
-                Packager packager = (exportEachChildrenCheckBox.isSelected() ? new EachPacker(this.dataContext, exportJarPath) : new AllPacker(this.dataContext, exportJarPath, exportJarName));
+                Packager packager = exportEachChildrenCheckBox.isSelected()
+                        ? new EachPacker(this.dataContext, exportJarPath)
+                        : new AllPacker(this.dataContext, exportJarPath, exportJarName);
 
                 if (this.fastModeCheckBox.isSelected()) {
                     CompilerManager.getInstance(project).make(module, packager);
