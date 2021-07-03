@@ -75,7 +75,7 @@ public class AllPacker extends Packager {
             this.pack();
         } else {
             Project project = CommonDataKeys.PROJECT.getData(this.dataContext);
-            Messages.info(project, "compile error");
+            Messages.error(project, "compile error");
         }
 
     }
