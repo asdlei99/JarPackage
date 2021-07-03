@@ -131,7 +131,9 @@ public class Action extends AnAction {
 
             for (int i = 0; i < length; ++i) {
                 VirtualFile virtualFile = _virtualFiles[i];
-                if (projectFileIndex.isInSourceContent(virtualFile) && virtualFile.isInLocalFileSystem() && virtualFile.isDirectory()) {
+                if (projectFileIndex.isInSourceContent(virtualFile)
+                        && virtualFile.isInLocalFileSystem()
+                        && virtualFile.isDirectory()) {
                     PsiDirectory var11 = psiManager.findDirectory(virtualFile);
                     if (var11 != null && JavaDirectoryService.getInstance().getPackage(var11) != null) {
                         arrayList.add(virtualFile);
