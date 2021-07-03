@@ -46,7 +46,15 @@ public class Messages implements Constants {
         });
     }
 
-    public static void info(Project project, String string) {
+    public static void info(Project project, String text) {
+        message(project, text, 3);
+    }
+
+    public static void error(Project project, String text) {
+        message(project, text, 4);
+    }
+
+    public static void message(Project project, String text, int type) {
         MessageView messageView = SERVICE.getInstance(project);
         messageView.runWhenInitialized(() -> {
             activateMessageWindow(project);
@@ -67,7 +75,7 @@ public class Messages implements Constants {
                 messageView.getContentManager().addContent(content);
                 messageView.getContentManager().setSelectedContent(content);
             }
-            packMessages.addMessage(3, new String[]{string}, null, -1, -1, null);
+            packMessages.addMessage(type, new String[]{text}, null, -1, -1, null);
         });
     }
 

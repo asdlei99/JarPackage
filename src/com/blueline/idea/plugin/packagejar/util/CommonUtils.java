@@ -29,7 +29,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.jar.Attributes;
 import java.util.jar.JarEntry;
@@ -74,7 +73,7 @@ public class CommonUtils {
     }
 
     public static void createNewJar(Project project, Path jarFileFullPath, List<Path> filePaths,
-                                    List<String> entryNames, Map<Path, VirtualFile> filePathVfMap) {
+                                    List<String> entryNames) {
         final Manifest manifest = new Manifest();
         Attributes mainAttributes = manifest.getMainAttributes();
         mainAttributes.put(Attributes.Name.MANIFEST_VERSION, "1.0");

@@ -113,6 +113,7 @@ public class EachPacker extends Packager {
                         this.exportPath + "/" + psiPackage.getQualifiedName(),
                         List.of(new ActionShowExplorer(Path.of(this.exportPath))));
             } catch (Exception e) {
+                Messages.error(project, e.getLocalizedMessage());
                 e.printStackTrace();
             }
         }
@@ -124,7 +125,7 @@ public class EachPacker extends Packager {
             this.pack();
         } else {
             Project project = CommonDataKeys.PROJECT.getData(this.dataContext);
-            Messages.info(project, "compile error");
+            Messages.error(project, "compile error");
         }
 
     }
