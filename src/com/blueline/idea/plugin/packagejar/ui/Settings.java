@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import static com.blueline.idea.plugin.packagejar.message.Messages.info;
+import static com.blueline.idea.plugin.packagejar.util.Messages.info;
 import static com.intellij.openapi.ui.Messages.showErrorDialog;
 
 public class Settings extends JDialog {

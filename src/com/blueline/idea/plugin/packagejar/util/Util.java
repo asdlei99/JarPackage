@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Set;
 
 public class Util {
-    public Util() {
+    private Util() {
     }
 
     public static boolean matchFileNamingConventions(String fileName) {

@@ -5,8 +5,8 @@
 
 package com.blueline.idea.plugin.packagejar.pack.impl;
 
-import com.blueline.idea.plugin.packagejar.message.Messages;
 import com.blueline.idea.plugin.packagejar.pack.Packager;
+import com.blueline.idea.plugin.packagejar.util.Messages;
 import com.blueline.idea.plugin.packagejar.util.Util;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.DataContext;
@@ -81,8 +81,8 @@ public class AllPacker extends Packager {
             while ((str = stream.readLine()) != null) {
                 Messages.info(project, str);
             }
-        } catch (Exception var13) {
-            var13.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }

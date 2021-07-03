@@ -3,9 +3,13 @@
 // (powered by Fernflower decompiler)
 //
 
-package com.blueline.idea.plugin.packagejar.message;
+package com.blueline.idea.plugin.packagejar.util;
 
 import com.intellij.compiler.impl.ProblemsViewPanel;
+import com.intellij.notification.Notification;
+import com.intellij.notification.NotificationType;
+import com.intellij.notification.Notifications;
+import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowId;
@@ -14,11 +18,15 @@ import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentManager;
 import com.intellij.ui.content.MessageView;
 import com.intellij.ui.content.MessageView.SERVICE;
+import com.intellij.util.containers.ContainerUtil;
 
-public class Messages {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Messages implements Constants {
     private static final String ID = "packing";
 
-    public Messages() {
+    private Messages() {
     }
 
     public static void clear(Project project) {
@@ -70,4 +78,28 @@ public class Messages {
             toolWindow.show(null);
         }
     }
+
+    /**
+     * show info notification popup
+     *
+     * @param title   title
+     * @param message message showing in popup, can be html snippet
+     */
+    public static void infoNotify(String title, String message) {
+        infoNotify(title, message, new ArrayList<>());
+    }
+
+    /**
+     * show info notification popup with actions
+     *
+     * @param title   title
+     * @param message content
+     * @param actions actions show in popup and event log window
+     */
+    public static void infoNotify(String title, String message, List<AnAction> actions) {
+        final Notification notification = new Notification(Constants.actionName, title, message, NotificationType.INFORMATION);
+        ContainerUtil.notNullize(actions).forEach(notification::addAction);
+        Notifications.Bus.notify(notification);
+    }
+
 }
