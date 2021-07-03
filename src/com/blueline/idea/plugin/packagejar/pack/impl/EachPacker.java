@@ -6,6 +6,7 @@
 package com.blueline.idea.plugin.packagejar.pack.impl;
 
 import com.blueline.idea.plugin.packagejar.pack.Packager;
+import com.blueline.idea.plugin.packagejar.util.ActionShowExplorer;
 import com.blueline.idea.plugin.packagejar.util.Messages;
 import com.blueline.idea.plugin.packagejar.util.Util;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
@@ -26,8 +27,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 
 public class EachPacker extends Packager {
     private final DataContext dataContext;
@@ -105,6 +108,10 @@ public class EachPacker extends Packager {
                 while ((str = stream.readLine()) != null) {
                     Messages.info(project, str);
                 }
+                Messages.infoNotify(
+                        "packageJar success",
+                        this.exportPath + "/" + psiPackage.getQualifiedName(),
+                        List.of(new ActionShowExplorer(Path.of(this.exportPath))));
             } catch (Exception e) {
                 e.printStackTrace();
             }
