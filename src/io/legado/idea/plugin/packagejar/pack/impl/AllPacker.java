@@ -7,6 +7,7 @@ package io.legado.idea.plugin.packagejar.pack.impl;
 
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.compiler.CompileContext;
 import com.intellij.openapi.compiler.CompilerPaths;
 import com.intellij.openapi.module.Module;
@@ -33,21 +34,20 @@ public class AllPacker extends Packager {
     private final Project project;
     private final Module module;
     private final VirtualFile[] virtualFiles;
+    private final VirtualFile outPutDir;
 
-    public AllPacker(DataContext dataContext, Project project, Module module, String exportPath, String exportJarName) {
+    public AllPacker(DataContext dataContext, String exportPath, String exportJarName) {
         this.dataContext = dataContext;
         this.exportPath = exportPath;
         this.exportJarName = exportJarName;
-        this.project = project;
-        this.module = module;
-        virtualFiles = CommonDataKeys.VIRTUAL_FILE_ARRAY.getData(this.dataContext);
+        project = CommonDataKeys.PROJECT.getData(dataContext);
+        module = LangDataKeys.MODULE.getData(dataContext);
+        virtualFiles = CommonDataKeys.VIRTUAL_FILE_ARRAY.getData(dataContext);
+        outPutDir = CompilerPaths.getModuleOutputDirectory(module, false);
     }
 
     @Override
     public void pack() {
-        Messages.clear(project);
-        VirtualFile outPutDir = CompilerPaths.getModuleOutputDirectory(module, false);
-
         Set<VirtualFile> allVfs = new HashSet<>();
         for (VirtualFile virtualFile : virtualFiles) {
             PsiDirectory psiDirectory = PsiManager.getInstance(project).findDirectory(virtualFile);

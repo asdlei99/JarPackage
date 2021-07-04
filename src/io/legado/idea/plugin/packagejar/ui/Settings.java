@@ -38,6 +38,7 @@ public class Settings extends JDialog {
     private final DataContext dataContext;
     private final Project project;
     private final Module module;
+    private final VirtualFile[] virtualFiles;
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
@@ -52,6 +53,7 @@ public class Settings extends JDialog {
         this.dataContext = dataContext;
         project = CommonDataKeys.PROJECT.getData(dataContext);
         module = LangDataKeys.MODULE.getData(dataContext);
+        virtualFiles = CommonDataKeys.VIRTUAL_FILE_ARRAY.getData(dataContext);
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -69,7 +71,6 @@ public class Settings extends JDialog {
         this.exportEachChildrenCheckBox.addActionListener(e -> onExportEachChildrenCheckBoxChange());
         this.selectPathButton.addActionListener(e -> onSelectPathButtonAction());
 
-        VirtualFile[] virtualFiles = CommonDataKeys.VIRTUAL_FILE_ARRAY.getData(this.dataContext);
         List<String> names = new ArrayList<>();
 
         assert virtualFiles != null;
@@ -141,19 +142,17 @@ public class Settings extends JDialog {
 
     private void onOK() {
         String exportJarName = this.exportJarNameField.getText();
-
         exportJarName = exportJarName.trim() + ".jar";
-
+        Messages.clear(project);
         if (Util.matchFileNamingConventions(exportJarName)) {
             String exportJarPath = this.exportDirectoryField.getText().trim();
             File _temp0 = new File(exportJarPath);
             if (!_temp0.exists()) {
                 showErrorDialog(project, "the selected output path is not exists", "");
             } else {
-
                 Packager packager = exportEachChildrenCheckBox.isSelected()
-                        ? new EachPacker(dataContext, project, module, exportJarPath)
-                        : new AllPacker(dataContext, project, module, exportJarPath, exportJarName);
+                        ? new EachPacker(dataContext, exportJarPath)
+                        : new AllPacker(dataContext, exportJarPath, exportJarName);
 
                 if (this.fastModeCheckBox.isSelected()) {
                     CompilerManager.getInstance(project).make(module, packager);
@@ -171,7 +170,6 @@ public class Settings extends JDialog {
     }
 
     private String getPropertyKey() {
-        VirtualFile[] virtualFiles = CommonDataKeys.VIRTUAL_FILE_ARRAY.getData(this.dataContext);
         StringBuilder pkey = new StringBuilder("MDL_" + module.getName());
 
         for (VirtualFile file : virtualFiles) {
