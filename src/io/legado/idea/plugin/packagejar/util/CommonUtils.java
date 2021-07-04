@@ -84,9 +84,9 @@ public class CommonUtils {
                     jos.write(Files.readAllBytes(filePath));
                 }
                 jos.closeEntry();
-                Messages.info(project, "packed " + filePath + " to jar");
+                Messages.info(project, "packed " + filePath);
             }
-            Messages.info(project, "success " + jarFileFullPath);
+            Messages.info(project, "packageJar success " + jarFileFullPath);
             Messages.notify("packageJar Success", jarFileFullPath.toString(), List.of(ActionShowExplorer.of(jarFileFullPath)));
         } catch (Exception e) {
             Messages.error(project, e.getLocalizedMessage());
