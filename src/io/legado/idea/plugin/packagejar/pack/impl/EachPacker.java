@@ -7,7 +7,6 @@ package io.legado.idea.plugin.packagejar.pack.impl;
 
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.compiler.CompileContext;
 import com.intellij.openapi.compiler.CompilerPaths;
 import com.intellij.openapi.module.Module;
@@ -29,18 +28,21 @@ import java.util.*;
 public class EachPacker extends Packager {
     private final DataContext dataContext;
     private final String exportPath;
+    private final Project project;
+    private final Module module;
+    private final VirtualFile[] virtualFiles;
 
-    public EachPacker(DataContext dataContext, String exportPath) {
+    public EachPacker(DataContext dataContext, Project project, Module module, String exportPath) {
         this.dataContext = dataContext;
         this.exportPath = exportPath;
+        this.project = project;
+        this.module = module;
+        virtualFiles = CommonDataKeys.VIRTUAL_FILE_ARRAY.getData(this.dataContext);
     }
 
     @Override
     public void pack() {
-        Project project = CommonDataKeys.PROJECT.getData(this.dataContext);
-        Module module = LangDataKeys.MODULE.getData(this.dataContext);
         Messages.clear(project);
-        VirtualFile[] virtualFiles = CommonDataKeys.VIRTUAL_FILE_ARRAY.getData(this.dataContext);
         VirtualFile outPutDir = CompilerPaths.getModuleOutputDirectory(module, false);
         HashSet<VirtualFile> directories = new HashSet<>();
 

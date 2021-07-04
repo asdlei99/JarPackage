@@ -52,8 +52,9 @@ public class CommonUtils {
         if (!parentVf.isDirectory()) {
             collected.add(parentVf);
         }
-        //try to use com.intellij.openapi.vfs.VfsUtilCore.visitChildrenRecursively
-        for (VirtualFile child : parentVf.getChildren()) {
+        //noinspection UnsafeVfsRecursion
+        VirtualFile[] vfs = parentVf.getChildren();
+        for (VirtualFile child : vfs) {
             if (child.isDirectory()) {
                 collectExportFilesNest(project, collected, child);
             } else {

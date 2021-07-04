@@ -51,7 +51,7 @@ public class Settings extends JDialog {
     public Settings(DataContext dataContext) {
         this.dataContext = dataContext;
         project = CommonDataKeys.PROJECT.getData(dataContext);
-        module = LangDataKeys.MODULE.getData(this.dataContext);
+        module = LangDataKeys.MODULE.getData(dataContext);
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -81,11 +81,9 @@ public class Settings extends JDialog {
             }
         }
 
-
         try {
 
             tempFile = new File(project.getBasePath() + File.separator + "package-path.properties");
-
 
             if (!tempFile.exists()) {
                 //noinspection ResultOfMethodCallIgnored
@@ -107,12 +105,10 @@ public class Settings extends JDialog {
                 jarName = jarName.substring(0, jarName.lastIndexOf("."));
             }
 
-            if (exportJarName != null) {
-                this.exportJarNameField.setText(exportJarName.toString());
-            } else {
+            if (exportJarName == null) {
                 exportJarName = jarName;
-                this.exportJarNameField.setText(exportJarName.toString());
             }
+            this.exportJarNameField.setText(exportJarName.toString());
 
             Object exportPath = properties.get(getPropertyKey());
             if (exportPath == null) {
@@ -156,8 +152,8 @@ public class Settings extends JDialog {
             } else {
 
                 Packager packager = exportEachChildrenCheckBox.isSelected()
-                        ? new EachPacker(this.dataContext, exportJarPath)
-                        : new AllPacker(this.dataContext, exportJarPath, exportJarName);
+                        ? new EachPacker(dataContext, project, module, exportJarPath)
+                        : new AllPacker(dataContext, project, module, exportJarPath, exportJarName);
 
                 if (this.fastModeCheckBox.isSelected()) {
                     CompilerManager.getInstance(project).make(module, packager);
