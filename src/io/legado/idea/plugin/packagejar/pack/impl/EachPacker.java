@@ -23,6 +23,7 @@ import io.legado.idea.plugin.packagejar.util.Messages;
 import io.legado.idea.plugin.packagejar.util.Util;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.*;
 
@@ -44,14 +45,14 @@ public class EachPacker extends Packager {
     }
 
     @Override
-    public void pack() {
+    public void pack() throws Exception {
         HashSet<VirtualFile> directories = new HashSet<>();
         assert virtualFiles != null;
         for (VirtualFile virtualFile : virtualFiles) {
             Util.iterateDirectory(project, directories, virtualFile);
         }
 
-        Iterator iterator = directories.iterator();
+        Iterator<VirtualFile> iterator = directories.iterator();
 
         while (true) {
             PsiDirectory psiDirectory;
@@ -60,13 +61,17 @@ public class EachPacker extends Packager {
                     return;
                 }
 
-                VirtualFile directory = (VirtualFile) iterator.next();
+                VirtualFile directory = iterator.next();
                 psiDirectory = PsiManager.getInstance(project).findDirectory(directory);
             } while (psiDirectory == null);
 
             PsiPackage psiPackage = JavaDirectoryService.getInstance().getPackage(psiDirectory);
             VirtualFile pvf = outPutDir;
-            for (String n : psiPackage.getQualifiedName().split("\\.")) {
+            String[] packageNames = psiPackage.getQualifiedName().split("\\.");
+            for (String n : packageNames) {
+                if (pvf == null) {
+                    throw new IOException(n + " 文件夹不存在");
+                }
                 pvf = pvf.findChild(n);
             }
             Set<VirtualFile> allVfs = new HashSet<>();
@@ -85,7 +90,12 @@ public class EachPacker extends Packager {
     @Override
     public void finished(boolean b, int error, int i1, @NotNull CompileContext compileContext) {
         if (error == 0) {
-            this.pack();
+            try {
+                pack();
+            } catch (Exception e) {
+                Messages.error(project, e.getLocalizedMessage());
+                e.printStackTrace();
+            }
         } else {
             Project project = CommonDataKeys.PROJECT.getData(this.dataContext);
             Messages.error(project, "compile error");

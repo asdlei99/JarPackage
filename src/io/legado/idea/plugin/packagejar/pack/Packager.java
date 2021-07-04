@@ -9,6 +9,6 @@ import com.intellij.openapi.compiler.CompileStatusNotification;
 
 public abstract class Packager implements CompileStatusNotification {
 
-    public abstract void pack();
+    public abstract void pack() throws Exception;
 
 }
