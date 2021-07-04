@@ -52,7 +52,7 @@ public class CommonUtils {
         if (!parentVf.isDirectory()) {
             collected.add(parentVf);
         }
-        //noinspection UnsafeVfsRecursion
+
         VirtualFile[] vfs = parentVf.getChildren();
         for (VirtualFile child : vfs) {
             if (child.isDirectory()) {
@@ -63,8 +63,7 @@ public class CommonUtils {
         }
     }
 
-    public static void createNewJar(Project project, Path jarFileFullPath, List<Path> filePaths,
-                                    List<String> entryNames) {
+    public static void createNewJar(Project project, Path jarFileFullPath, List<Path> filePaths, List<String> entryNames) {
         final Manifest manifest = new Manifest();
         Attributes mainAttributes = manifest.getMainAttributes();
         mainAttributes.put(Attributes.Name.MANIFEST_VERSION, "1.0");
