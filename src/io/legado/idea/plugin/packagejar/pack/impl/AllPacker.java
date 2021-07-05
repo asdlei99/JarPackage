@@ -69,7 +69,7 @@ public class AllPacker extends Packager {
         }
         List<Path> filePaths = new ArrayList<>();
         List<String> jarEntryNames = new ArrayList<>();
-        int outIndex = outPutDir.getPath().length();
+        int outIndex = outPutDir.getPath().length() + 1;
         for (VirtualFile vf : allVfs) {
             filePaths.add(vf.toNioPath());
             jarEntryNames.add(vf.getPath().substring(outIndex));
