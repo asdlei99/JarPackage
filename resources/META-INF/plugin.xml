@@ -1,12 +1,11 @@
 <idea-plugin>
     <id>com.blueline.idea.plugin.packagejar</id>
     <name>PackageJar</name>
-    <version>2.0</version>
+    <version>2.1</version>
     <vendor email="kunfei.ge@gmail.com" url="https://github.com/BailinSong/idea-plugin-PackageJar">kunfei</vendor>
 
     <description><![CDATA[
       * Use the right click on the package click [Package 'xxxx']to generate the jar
-
       Modified from lxlqwo old version
     ]]></description>
 
