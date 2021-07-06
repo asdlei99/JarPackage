@@ -1,4 +1,4 @@
-package io.legado.idea.plugin.packagejar.util;
+package io.legado.packagejar.util;
 
 import com.intellij.compiler.CompilerConfiguration;
 import com.intellij.openapi.actionSystem.CommonDataKeys;

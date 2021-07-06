@@ -3,7 +3,7 @@
 // (powered by Fernflower decompiler)
 //
 
-package io.legado.idea.plugin.packagejar.util;
+package io.legado.packagejar.util;
 
 import com.intellij.compiler.impl.ProblemsViewPanel;
 import com.intellij.notification.Notification;

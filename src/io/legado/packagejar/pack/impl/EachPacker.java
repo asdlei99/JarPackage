@@ -3,7 +3,7 @@
 // (powered by Fernflower decompiler)
 //
 
-package io.legado.idea.plugin.packagejar.pack.impl;
+package io.legado.packagejar.pack.impl;
 
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.DataContext;
@@ -17,31 +17,27 @@ import com.intellij.psi.JavaDirectoryService;
 import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.PsiPackage;
-import io.legado.idea.plugin.packagejar.pack.Packager;
-import io.legado.idea.plugin.packagejar.util.CommonUtils;
-import io.legado.idea.plugin.packagejar.util.Messages;
+import io.legado.packagejar.pack.Packager;
+import io.legado.packagejar.util.CommonUtils;
+import io.legado.packagejar.util.Messages;
+import io.legado.packagejar.util.Util;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-public class AllPacker extends Packager {
+public class EachPacker extends Packager {
     private final DataContext dataContext;
     private final String exportPath;
-    private final String exportJarName;
     private final Project project;
     private final Module module;
     private final VirtualFile[] virtualFiles;
     private final VirtualFile outPutDir;
 
-    public AllPacker(DataContext dataContext, String exportPath, String exportJarName) {
+    public EachPacker(DataContext dataContext, String exportPath) {
         this.dataContext = dataContext;
         this.exportPath = exportPath;
-        this.exportJarName = exportJarName;
         project = CommonDataKeys.PROJECT.getData(dataContext);
         module = LangDataKeys.MODULE.getData(dataContext);
         virtualFiles = CommonDataKeys.VIRTUAL_FILE_ARRAY.getData(dataContext);
@@ -50,31 +46,45 @@ public class AllPacker extends Packager {
 
     @Override
     public void pack() throws Exception {
-        Set<VirtualFile> allVfs = new HashSet<>();
+        HashSet<VirtualFile> directories = new HashSet<>();
+        assert virtualFiles != null;
         for (VirtualFile virtualFile : virtualFiles) {
-            PsiDirectory psiDirectory = PsiManager.getInstance(project).findDirectory(virtualFile);
-            if (psiDirectory != null) {
-                PsiPackage psiPackage = JavaDirectoryService.getInstance().getPackage(psiDirectory);
-                VirtualFile pvf = outPutDir;
-                String[] packageNames = psiPackage.getQualifiedName().split("\\.");
-                for (String n : packageNames) {
-                    if (pvf == null) {
-                        throw new IOException(n + " 文件夹不存在");
-                    }
-                    pvf = pvf.findChild(n);
+            Util.iterateDirectory(project, directories, virtualFile);
+        }
+
+        Iterator<VirtualFile> iterator = directories.iterator();
+
+        while (true) {
+            PsiDirectory psiDirectory;
+            do {
+                if (!iterator.hasNext()) {
+                    return;
                 }
-                assert pvf != null;
-                CommonUtils.collectExportFilesNest(project, allVfs, pvf);
+
+                VirtualFile directory = iterator.next();
+                psiDirectory = PsiManager.getInstance(project).findDirectory(directory);
+            } while (psiDirectory == null);
+
+            PsiPackage psiPackage = JavaDirectoryService.getInstance().getPackage(psiDirectory);
+            VirtualFile pvf = outPutDir;
+            String[] packageNames = psiPackage.getQualifiedName().split("\\.");
+            for (String n : packageNames) {
+                if (pvf == null) {
+                    throw new IOException(n + " 文件夹不存在");
+                }
+                pvf = pvf.findChild(n);
             }
+            Set<VirtualFile> allVfs = new HashSet<>();
+            CommonUtils.collectExportFilesNest(project, allVfs, pvf);
+            List<Path> filePaths = new ArrayList<>();
+            List<String> jarEntryNames = new ArrayList<>();
+            int outIndex = outPutDir.getPath().length() + 1;
+            for (VirtualFile vf : allVfs) {
+                filePaths.add(vf.toNioPath());
+                jarEntryNames.add(vf.getPath().substring(outIndex));
+            }
+            CommonUtils.createNewJar(project, Path.of(exportPath, psiPackage.getQualifiedName() + ".jar"), filePaths, jarEntryNames);
         }
-        List<Path> filePaths = new ArrayList<>();
-        List<String> jarEntryNames = new ArrayList<>();
-        int outIndex = outPutDir.getPath().length() + 1;
-        for (VirtualFile vf : allVfs) {
-            filePaths.add(vf.toNioPath());
-            jarEntryNames.add(vf.getPath().substring(outIndex));
-        }
-        CommonUtils.createNewJar(project, Path.of(exportPath, exportJarName), filePaths, jarEntryNames);
     }
 
     @Override
@@ -92,6 +102,4 @@ public class AllPacker extends Packager {
         }
 
     }
-
-
 }

@@ -1,4 +1,4 @@
-package io.legado.idea.plugin.packagejar.ui;
+package io.legado.packagejar.ui;
 
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.DataContext;
@@ -16,11 +16,11 @@ import com.intellij.psi.PsiDirectory;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.PsiPackage;
 import com.intellij.util.Consumer;
-import io.legado.idea.plugin.packagejar.pack.Packager;
-import io.legado.idea.plugin.packagejar.pack.impl.AllPacker;
-import io.legado.idea.plugin.packagejar.pack.impl.EachPacker;
-import io.legado.idea.plugin.packagejar.util.Messages;
-import io.legado.idea.plugin.packagejar.util.Util;
+import io.legado.packagejar.pack.Packager;
+import io.legado.packagejar.pack.impl.AllPacker;
+import io.legado.packagejar.pack.impl.EachPacker;
+import io.legado.packagejar.util.Messages;
+import io.legado.packagejar.util.Util;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;

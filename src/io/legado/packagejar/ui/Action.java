@@ -3,7 +3,7 @@
 // (powered by Fernflower decompiler)
 //
 
-package io.legado.idea.plugin.packagejar.ui;
+package io.legado.packagejar.ui;
 
 import com.intellij.compiler.CompilerConfiguration;
 import com.intellij.openapi.actionSystem.*;

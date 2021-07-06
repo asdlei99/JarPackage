@@ -1,4 +1,4 @@
-package io.legado.idea.plugin.packagejar.util;
+package io.legado.packagejar.util;
 
 public interface Constants {
 

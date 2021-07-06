@@ -6,11 +6,11 @@
 
     <description><![CDATA[
       * Use the right click on the package click [Package 'xxxx']to generate the jar
-      Modified from lxlqwo old version
+      Modified from BailinSong/idea-plugin-PackageJar
     ]]></description>
 
     <change-notes><![CDATA[
-      fix: support IDEA 2108.2.1.<br>
+      fix: support IDEA 2021.1.1.<br>
     ]]>
     </change-notes>
 
@@ -28,7 +28,7 @@
     </extensions>
 
     <actions>
-        <action id="PackageJar" class="io.legado.idea.plugin.packagejar.ui.Action" text="PackageJar"
+        <action id="PackageJar" class="io.legado.packagejar.ui.Action" text="PackageJar"
                 description="PackageJar">
             <add-to-group group-id="ProjectViewCompileGroup" anchor="after" relative-to-action="Compile"/>
         </action>
