@@ -58,12 +58,11 @@ public class AllPacker extends Packager {
                 VirtualFile pvf = outPutDir;
                 String[] packageNames = psiPackage.getQualifiedName().split("\\.");
                 for (String n : packageNames) {
+                    pvf = pvf.findChild(n);
                     if (pvf == null) {
                         throw new IOException(n + " 文件夹不存在");
                     }
-                    pvf = pvf.findChild(n);
                 }
-                assert pvf != null;
                 CommonUtils.collectExportFilesNest(project, allVfs, pvf);
             }
         }
