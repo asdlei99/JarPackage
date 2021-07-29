@@ -1,6 +1,6 @@
 * Use the right click on the package click [Package 'xxxx']to generate the jar
 * Support storage and packaging configuration
-* support IDEA 2108.2.x
+* support IDEA 2021.1.x
 
 _*Modified from lxlqwo old version*_
 > 简单易用的打包工具，安装后，右键src下的任意目录，在菜单中点击Package Jars按>钮，按说明即可导出相应的Jar！
