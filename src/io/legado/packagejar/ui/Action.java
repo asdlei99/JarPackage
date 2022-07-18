@@ -5,9 +5,7 @@
 
 package io.legado.packagejar.ui;
 
-import com.intellij.compiler.CompilerConfiguration;
 import com.intellij.openapi.actionSystem.*;
-import com.intellij.openapi.compiler.CompilerManager;
 import com.intellij.openapi.compiler.JavaCompilerBundle;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ProjectFileIndex;
@@ -16,6 +14,7 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VfsUtilCore;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.*;
+import org.apache.http.util.TextUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -38,7 +37,7 @@ public class Action extends AnAction {
                 return;
             }
 
-            VirtualFile[] virtualFiles = this.checkVirtualFiles(project, CommonDataKeys.VIRTUAL_FILE_ARRAY.getData(dataContext));
+            VirtualFile[] virtualFiles = checkVirtualFiles(project, CommonDataKeys.VIRTUAL_FILE_ARRAY.getData(dataContext));
             if (virtualFiles.length == 0) {
                 presentation.setEnabled(false);
                 presentation.setVisible(false);
@@ -63,12 +62,12 @@ public class Action extends AnAction {
                 text = psiPackage.getQualifiedName();
             } else if (virtualFiles.length == 1) {
                 VirtualFile virtualFile = virtualFiles[0];
-                text = "'" + virtualFile.getName() + "'";
+                text = virtualFile.getName();
             } else {
                 text = JavaCompilerBundle.message("action.compile.description.selected.files");
             }
 
-            if (text == null) {
+            if (TextUtils.isEmpty(text)) {
                 presentation.setEnabled(false);
             } else {
                 presentation.setText(this.getButtonName(text), true);
@@ -122,15 +121,10 @@ public class Action extends AnAction {
     private VirtualFile[] checkVirtualFiles(Project project, VirtualFile[] virtualFiles) {
         if (virtualFiles != null && virtualFiles.length != 0) {
             PsiManager psiManager = PsiManager.getInstance(project);
-            CompilerConfiguration compilerConfiguration = CompilerConfiguration.getInstance(project);
             ProjectFileIndex projectFileIndex = ProjectRootManager.getInstance(project).getFileIndex();
-            CompilerManager compilerManager = CompilerManager.getInstance(project);
             ArrayList<VirtualFile> arrayList = new ArrayList<>();
-            VirtualFile[] _virtualFiles = virtualFiles;
-            int length = virtualFiles.length;
 
-            for (int i = 0; i < length; ++i) {
-                VirtualFile virtualFile = _virtualFiles[i];
+            for (VirtualFile virtualFile : virtualFiles) {
                 if (projectFileIndex.isInSourceContent(virtualFile)
                         && virtualFile.isInLocalFileSystem()
                         && virtualFile.isDirectory()) {
