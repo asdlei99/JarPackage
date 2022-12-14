@@ -33,8 +33,14 @@ import java.util.jar.Attributes;
 import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
+import java.util.regex.Pattern;
 
 public class CommonUtils {
+
+    /**
+     * 不需要打包的文档
+     */
+    static Pattern pattern = Pattern.compile(".*?\\.(doc|docx|xls|xlsx|ppt|pptx)$", Pattern.CASE_INSENSITIVE);
 
     private static int versionOpcodes;
 
@@ -49,7 +55,8 @@ public class CommonUtils {
 
 
     public static void collectExportFilesNest(Project project, Set<VirtualFile> collected, VirtualFile parentVf) {
-        if (!parentVf.isDirectory()) {
+
+        if (!parentVf.isDirectory() && !pattern.matcher(parentVf.getName()).matches()) {
             collected.add(parentVf);
         }
 
@@ -58,7 +65,9 @@ public class CommonUtils {
             if (child.isDirectory()) {
                 collectExportFilesNest(project, collected, child);
             } else {
-                collected.add(child);
+                if (!pattern.matcher(child.getName()).matches()) {
+                    collected.add(child);
+                }
             }
         }
     }
