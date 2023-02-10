@@ -15,6 +15,7 @@ import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowId;
 import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.ui.content.Content;
+import com.intellij.ui.content.ContentFactory;
 import com.intellij.ui.content.ContentManager;
 import com.intellij.ui.content.MessageView;
 import com.intellij.util.containers.ContainerUtil;
@@ -71,7 +72,7 @@ public class Messages implements Constants {
 
             if (packMessages == null) {
                 packMessages = new ProblemsViewPanel(project);
-                Content content = com.intellij.ui.content.ContentFactory.getInstance().createContent(packMessages, ID, true);
+                Content content = ContentFactory.getInstance().createContent(packMessages, ID, true);
                 messageView.getContentManager().addContent(content);
                 messageView.getContentManager().setSelectedContent(content);
             }
