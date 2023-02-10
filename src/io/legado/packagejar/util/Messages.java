@@ -51,6 +51,8 @@ public class Messages implements Constants {
 
     public static void error(Project project, String text) {
         message(project, text, 4);
+        final Notification notification = new Notification(actionName, "packageJar", text, NotificationType.ERROR);
+        Notifications.Bus.notify(notification);
     }
 
     public static void message(Project project, String text, int type) {
