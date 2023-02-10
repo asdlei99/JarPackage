@@ -17,7 +17,6 @@ import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentManager;
 import com.intellij.ui.content.MessageView;
-import com.intellij.ui.content.MessageView.SERVICE;
 import com.intellij.util.containers.ContainerUtil;
 
 import java.util.List;
@@ -30,7 +29,7 @@ public class Messages implements Constants {
 
     public static void clear(Project project) {
 
-        MessageView messageView = SERVICE.getInstance(project);
+        MessageView messageView = MessageView.getInstance(project);
         messageView.runWhenInitialized(() -> {
 
             ContentManager contentManager = messageView.getContentManager();
@@ -55,7 +54,7 @@ public class Messages implements Constants {
     }
 
     public static void message(Project project, String text, int type) {
-        MessageView messageView = SERVICE.getInstance(project);
+        MessageView messageView = MessageView.getInstance(project);
         messageView.runWhenInitialized(() -> {
             activateMessageWindow(project);
 
@@ -71,7 +70,7 @@ public class Messages implements Constants {
 
             if (packMessages == null) {
                 packMessages = new ProblemsViewPanel(project);
-                Content content = com.intellij.ui.content.ContentFactory.SERVICE.getInstance().createContent(packMessages, ID, true);
+                Content content = com.intellij.ui.content.ContentFactory.getInstance().createContent(packMessages, ID, true);
                 messageView.getContentManager().addContent(content);
                 messageView.getContentManager().setSelectedContent(content);
             }
