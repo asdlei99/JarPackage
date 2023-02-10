@@ -51,8 +51,7 @@ public class Messages implements Constants {
 
     public static void error(Project project, String text) {
         message(project, text, 4);
-        final Notification notification = new Notification(actionName, "packageJar", text, NotificationType.ERROR);
-        Notifications.Bus.notify(notification);
+        notify(NotificationType.ERROR, "PackageJar error", text);
     }
 
     public static void message(Project project, String text, int type) {
@@ -93,8 +92,8 @@ public class Messages implements Constants {
      * @param title   title
      * @param message message showing in popup, can be html snippet
      */
-    public static void notify(String title, String message) {
-        notify(title, message, List.of());
+    public static void notify(NotificationType type, String title, String message) {
+        notify(type, title, message, List.of());
     }
 
     /**
@@ -104,8 +103,8 @@ public class Messages implements Constants {
      * @param message content
      * @param actions actions show in popup and event log window
      */
-    public static void notify(String title, String message, List<AnAction> actions) {
-        final Notification notification = new Notification(actionName, title, message, NotificationType.INFORMATION);
+    public static void notify(NotificationType type, String title, String message, List<AnAction> actions) {
+        final Notification notification = new Notification(actionName, title, message, type);
         ContainerUtil.notNullize(actions).forEach(notification::addAction);
         Notifications.Bus.notify(notification);
     }

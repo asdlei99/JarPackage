@@ -1,6 +1,7 @@
 package io.legado.packagejar.util;
 
 import com.intellij.compiler.CompilerConfiguration;
+import com.intellij.notification.NotificationType;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.actionSystem.LangDataKeys;
@@ -95,7 +96,7 @@ public class CommonUtils {
                 Messages.info(project, "packed " + filePath);
             }
             Messages.info(project, "packageJar success " + jarFileFullPath);
-            Messages.notify("packageJar Success", jarFileFullPath.toString(), List.of(ActionShowExplorer.of(jarFileFullPath)));
+            Messages.notify(NotificationType.INFORMATION, "packageJar Success", jarFileFullPath.toString(), List.of(ActionShowExplorer.of(jarFileFullPath)));
         } catch (Exception e) {
             Messages.error(project, e.getLocalizedMessage());
             throw new RuntimeException(e);
