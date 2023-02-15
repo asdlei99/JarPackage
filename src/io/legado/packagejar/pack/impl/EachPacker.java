@@ -31,7 +31,6 @@ public class EachPacker extends Packager {
     private final DataContext dataContext;
     private final String exportPath;
     private final Project project;
-    private final Module module;
     private final VirtualFile[] virtualFiles;
     private final VirtualFile outPutDir;
 
@@ -39,8 +38,9 @@ public class EachPacker extends Packager {
         this.dataContext = dataContext;
         this.exportPath = exportPath;
         project = CommonDataKeys.PROJECT.getData(dataContext);
-        module = LangDataKeys.MODULE.getData(dataContext);
+        Module module = LangDataKeys.MODULE.getData(dataContext);
         virtualFiles = CommonDataKeys.VIRTUAL_FILE_ARRAY.getData(dataContext);
+        assert module != null;
         outPutDir = CompilerPaths.getModuleOutputDirectory(module, false);
     }
 
@@ -67,6 +67,7 @@ public class EachPacker extends Packager {
 
             PsiPackage psiPackage = JavaDirectoryService.getInstance().getPackage(psiDirectory);
             VirtualFile pvf = outPutDir;
+            assert psiPackage != null;
             String[] packageNames = psiPackage.getQualifiedName().split("\\.");
             for (String n : packageNames) {
                 pvf = pvf.findChild(n);
