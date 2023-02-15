@@ -25,6 +25,11 @@ public class Action extends AnAction {
     }
 
     @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return super.getActionUpdateThread();
+    }
+
+    @Override
     public void update(@NotNull AnActionEvent event) {
         super.update(event);
         Presentation presentation = event.getPresentation();
