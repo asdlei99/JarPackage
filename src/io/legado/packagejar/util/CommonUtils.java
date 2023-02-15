@@ -129,9 +129,6 @@ public class CommonUtils {
 
     /**
      * lookup modules from data context
-     *
-     * @param context
-     * @return
      */
     public static Module[] findModule(DataContext context) {
         Project project = CommonDataKeys.PROJECT.getData(context);
