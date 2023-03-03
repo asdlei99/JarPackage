@@ -98,7 +98,6 @@ public class CommonUtils {
             Messages.info(project, "packageJar success " + jarFileFullPath);
             Messages.notify(NotificationType.INFORMATION, "packageJar Success", jarFileFullPath.toString(), List.of(ActionShowExplorer.of(jarFileFullPath)));
         } catch (Exception e) {
-            Messages.error(project, e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }
