@@ -32,6 +32,7 @@ import java.util.Properties;
 
 import static com.intellij.openapi.ui.Messages.showErrorDialog;
 
+@SuppressWarnings("DialogTitleCapitalization")
 public class Settings extends JDialog {
     private static File tempFile = null;
     private Properties properties = null;
@@ -67,17 +68,21 @@ public class Settings extends JDialog {
                 onCancel();
             }
         });
-        this.contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(27, 0), 1);
+        this.contentPane.registerKeyboardAction(e ->
+                onCancel(), KeyStroke.getKeyStroke(27, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         this.exportEachChildrenCheckBox.addActionListener(e -> onExportEachChildrenCheckBoxChange());
         this.selectPathButton.addActionListener(e -> onSelectPathButtonAction());
 
         List<String> names = new ArrayList<>();
 
         assert virtualFiles != null;
+        assert project != null;
+        assert module != null;
         for (VirtualFile file : virtualFiles) {
             PsiDirectory psiDirectory = PsiManager.getInstance(project).findDirectory(file);
             if (psiDirectory != null) {
                 PsiPackage psiPackage = JavaDirectoryService.getInstance().getPackage(psiDirectory);
+                assert psiPackage != null;
                 names.add(psiPackage.getQualifiedName());
             }
         }
@@ -115,6 +120,7 @@ public class Settings extends JDialog {
             if (exportPath == null) {
                 exportPath = CompilerPaths.getModuleOutputPath(module, false);
             }
+            assert exportPath != null;
             this.exportDirectoryField.setText(exportPath.toString());
         } catch (IOException var12) {
             var12.printStackTrace();
@@ -176,6 +182,7 @@ public class Settings extends JDialog {
             PsiDirectory psiDirectory = PsiManager.getInstance(project).findDirectory(file);
             if (psiDirectory != null) {
                 PsiPackage psiPackage = JavaDirectoryService.getInstance().getPackage(psiDirectory);
+                assert psiPackage != null;
                 pkey.append("_PKG_").append(psiPackage.getQualifiedName());
             }
         }
@@ -185,7 +192,7 @@ public class Settings extends JDialog {
     private void saveOutPutJarName(String name) {
 
         Project project = CommonDataKeys.PROJECT.getData(dataContext);
-
+        assert project != null;
         FileOutputStream out = null;
         try {
 
@@ -211,6 +218,7 @@ public class Settings extends JDialog {
 
     private void saveOutPutDir(String path) {
         Project project = CommonDataKeys.PROJECT.getData(dataContext);
+        assert project != null;
         FileOutputStream out = null;
         try {
 
