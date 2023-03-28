@@ -2,95 +2,74 @@
 // Source code recreated from a .class file by IntelliJ IDEA
 // (powered by Fernflower decompiler)
 //
+package io.legado.packagejar.util
 
-package io.legado.packagejar.util;
+import com.intellij.openapi.project.Project
+import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.psi.PsiManager
 
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiDirectory;
-import com.intellij.psi.PsiManager;
-
-import java.util.HashSet;
-import java.util.List;
-
-public class Util {
-    private Util() {
+object Util {
+    @JvmStatic
+    fun matchFileNamingConventions(fileName: String): Boolean {
+        return fileName.matches("[^/\\\\<>*?|\"]+".toRegex())
     }
 
-    public static boolean matchFileNamingConventions(String fileName) {
-        return fileName.matches("[^/\\\\<>*?|\"]+");
-    }
-
-    public static void iterateDirectory(Project project, HashSet<VirtualFile> directories, VirtualFile directory) {
-        PsiDirectory psiDirectory = PsiManager.getInstance(project).findDirectory(directory);
+    fun iterateDirectory(project: Project, directories: HashSet<VirtualFile>, directory: VirtualFile?) {
         if (directory != null) {
-            directories.add(psiDirectory.getVirtualFile());
-            PsiDirectory[] psiDirectories = psiDirectory.getSubdirectories();
-
-            for (PsiDirectory pd : psiDirectories) {
-                iterateDirectory(project, directories, pd.getVirtualFile());
+            val psiDirectory = PsiManager.getInstance(project).findDirectory(directory)
+            directories.add(psiDirectory!!.virtualFile)
+            val psiDirectories = psiDirectory.subdirectories
+            for (pd in psiDirectories) {
+                iterateDirectory(project, directories, pd.virtualFile)
             }
         }
-
     }
 
-    public static String getTheSameStart(List<String> strings) {
-        if (strings != null && strings.size() != 0) {
-            int max = 888888;
-
-            for (String string : strings) {
-                if (string.length() < max) {
-                    max = string.length();
+    @JvmStatic
+    fun getTheSameStart(strings: List<String>?): String {
+        return if (!strings.isNullOrEmpty()) {
+            var max = 888888
+            for (string in strings) {
+                if (string.length < max) {
+                    max = string.length
                 }
             }
-
-            StringBuilder sb = new StringBuilder();
-            HashSet<Character> set = new HashSet<>();
-
-            for (int i = 0; i < max; ++i) {
-
-                for (String string : strings) {
-                    set.add(string.charAt(i));
+            val sb = StringBuilder()
+            val set = HashSet<Char>()
+            for (i in 0 until max) {
+                for (string in strings) {
+                    set.add(string[i])
                 }
-
-                if (set.size() != 1) {
-                    break;
+                if (set.size != 1) {
+                    break
                 }
-
-                sb.append(set.iterator().next());
-                set.clear();
+                sb.append(set.iterator().next())
+                set.clear()
             }
-
-            return sb.toString();
+            sb.toString()
         } else {
-            return "";
+            ""
         }
     }
 
-    private static int getMinorVersion(String vs) {
-        int dashIndex = vs.lastIndexOf(95);
+    private fun getMinorVersion(vs: String): Int {
+        val dashIndex = vs.lastIndexOf(95.toChar())
         if (dashIndex >= 0) {
-            StringBuilder builder = new StringBuilder();
-
-            for (int idx = dashIndex + 1; idx < vs.length(); ++idx) {
-                char ch = vs.charAt(idx);
+            val builder = StringBuilder()
+            for (idx in dashIndex + 1 until vs.length) {
+                val ch = vs[idx]
                 if (!Character.isDigit(ch)) {
-                    break;
+                    break
                 }
-
-                builder.append(ch);
+                builder.append(ch)
             }
-
-            if (builder.length() > 0) {
+            if (builder.isNotEmpty()) {
                 try {
-                    return Integer.parseInt(builder.toString());
-                } catch (NumberFormatException ignored) {
-
+                    return builder.toString().toInt()
+                } catch (ignored: NumberFormatException) {
                 }
             }
         }
-
-        return 0;
+        return 0
     }
-
 }

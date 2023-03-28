@@ -1,14 +1,14 @@
-package io.legado.packagejar.util;
+package io.legado.packagejar.util
 
-public interface Constants {
-
-    String actionName = "Export Jar";
-    String exportCommitActionName = "Export Jar from Local Changes";
-    String exportCommitButtonName = "Export Jar...";
-    String infoTabName = "Packing Export Jar";
-    String titteFileList = "Select files";
-    String actionNameExplorer = "Explorer";
-    String actionNameCopy = "Copy";
-    String creator = "kun fei";
-
+interface Constants {
+    companion object {
+        const val actionName = "Export Jar"
+        const val exportCommitActionName = "Export Jar from Local Changes"
+        const val exportCommitButtonName = "Export Jar..."
+        const val infoTabName = "Packing Export Jar"
+        const val titteFileList = "Select files"
+        const val actionNameExplorer = "Explorer"
+        const val actionNameCopy = "Copy"
+        const val creator = "kun fei"
+    }
 }

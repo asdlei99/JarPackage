@@ -1,34 +1,32 @@
-package io.legado.packagejar.util;
+package io.legado.packagejar.util
 
-import com.intellij.ide.actions.RevealFileAction;
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import org.jetbrains.annotations.NotNull;
-
-import java.nio.file.Files;
-import java.nio.file.Path;
+import com.intellij.ide.actions.RevealFileAction
+import com.intellij.openapi.actionSystem.AnAction
+import com.intellij.openapi.actionSystem.AnActionEvent
+import java.nio.file.Files
+import java.nio.file.Path
 
 /**
  * open the file in system file explorer
  */
-public class ActionShowExplorer extends AnAction {
-    private final Path filePath;
+class ActionShowExplorer private constructor(filePath: Path) : AnAction(Constants.actionNameExplorer) {
+    private val filePath: Path?
 
-    private ActionShowExplorer(Path filePath) {
-        super(Constants.actionNameExplorer);
-        this.filePath = filePath;
+    init {
+        this.filePath = filePath
     }
 
-    static ActionShowExplorer of(Path filePath) {
-        return new ActionShowExplorer(filePath);
-    }
-
-    @Override
-    public void actionPerformed(@NotNull AnActionEvent e) {
+    override fun actionPerformed(e: AnActionEvent) {
         if (filePath != null && !Files.isDirectory(filePath)) {
-            RevealFileAction.openFile(filePath.toFile());
+            RevealFileAction.openFile(filePath.toFile())
         } else if (filePath != null) {
-            RevealFileAction.openDirectory(filePath.toFile());
+            RevealFileAction.openDirectory(filePath.toFile())
+        }
+    }
+
+    companion object {
+        fun of(filePath: Path): ActionShowExplorer {
+            return ActionShowExplorer(filePath)
         }
     }
 }
