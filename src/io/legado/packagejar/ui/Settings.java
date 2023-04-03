@@ -195,17 +195,13 @@ public class Settings extends JDialog {
         assert project != null;
         FileOutputStream out = null;
         try {
-
             out = new FileOutputStream(tempFile);
 
             properties.setProperty("JAR_" + getPropertyKey(), name);
             properties.store(out, "The New properties file");
-
         } catch (IOException e) {
             Messages.info(project, e.toString());
         } finally {
-
-
             if (null != out) {
                 try {
                     out.close();
