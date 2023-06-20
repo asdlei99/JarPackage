@@ -21,7 +21,7 @@ import io.legado.packagejar.util.Util
 import java.io.IOException
 import java.nio.file.Path
 
-class EachPacker(private val dataContext: DataContext, private val exportPath: String) : Packager() {
+class EachPacker(dataContext: DataContext, private val exportPath: String) : Packager() {
     private val project: Project = CommonDataKeys.PROJECT.getData(dataContext)!!
     private val virtualFiles: Array<VirtualFile> = CommonDataKeys.VIRTUAL_FILE_ARRAY.getData(dataContext)!!
     private val outPutDir: VirtualFile =
