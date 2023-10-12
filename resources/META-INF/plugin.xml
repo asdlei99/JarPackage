@@ -1,5 +1,5 @@
 <idea-plugin>
-    <id>com.blueline.idea.plugin.packagejar</id>
+    <id>com.kun.idea.plugin.jarPackage</id>
     <name>JarPackage</name>
     <version>2.3</version>
     <vendor email="kunfei.ge@gmail.com" url="https://github.com/gedoor/JarPackage">kunfei</vendor>
