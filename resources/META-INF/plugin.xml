@@ -1,12 +1,12 @@
 <idea-plugin>
     <id>com.blueline.idea.plugin.packagejar</id>
-    <name>PackageJar</name>
+    <name>JarPackage</name>
     <version>2.3</version>
-    <vendor email="kunfei.ge@gmail.com" url="https://github.com/BailinSong/idea-plugin-PackageJar">kunfei</vendor>
+    <vendor email="kunfei.ge@gmail.com" url="https://github.com/gedoor/JarPackage">kunfei</vendor>
 
     <description><![CDATA[
       * Use the right click on the package click [Package 'xxxx']to generate the jar
-      Modified from BailinSong/idea-plugin-PackageJar
+      Modified from BailinSong/idea-plugin-JarPackage
     ]]></description>
 
     <change-notes><![CDATA[
@@ -28,8 +28,8 @@
     </extensions>
 
     <actions>
-        <action id="PackageJar" class="io.legado.packagejar.ui.Action" text="PackageJar"
-                description="PackageJar">
+        <action id="PackageJar" class="io.legado.packagejar.ui.Action" text="JarPackage"
+                description="JarPackage">
             <add-to-group group-id="ProjectViewCompileGroup" anchor="after" relative-to-action="Compile"/>
         </action>
 

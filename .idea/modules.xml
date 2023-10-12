@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/PackageJar.iml" filepath="$PROJECT_DIR$/PackageJar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JarPackage.iml" filepath="$PROJECT_DIR$/JarPackage.iml" />
     </modules>
   </component>
 </project>
