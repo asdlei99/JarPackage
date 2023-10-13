@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.kun.idea.plugin.jarPackage</id>
     <name>JarPackage</name>
-    <version>3.0</version>
+    <version>3.1</version>
     <vendor email="kunfei.ge@gmail.com" url="https://github.com/gedoor/JarPackage">kunfei</vendor>
 
     <description><![CDATA[
