@@ -35,5 +35,6 @@
 
     </actions>
 
+    <depends>com.intellij.java</depends>
 
 </idea-plugin>
